@@ -60,7 +60,6 @@ class VelocityClusteredServer implements ClusteredServer {
 
     @Override
     public Boolean ifLocationLocal(ServerLoc serverLoc) {
-        logger.debug("Checking if location is local: serverLoc={}, localNode={}", serverLoc.nodeName(), clusteringConfiguration.getName());
         return serverLoc.nodeName().equals(clusteringConfiguration.getName());
     }
 }

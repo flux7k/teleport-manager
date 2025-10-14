@@ -56,7 +56,7 @@ public class WarpUseCase {
             .flatMap(warpPoint -> {
                 ServerLoc location = warpPoint.location();
 
-                if (clusteredServer.ifLocationLocal(location)) {
+                if (clusteredServer.isLocationLocal(location)) {
                     logger.debug("Local warp: player={}, warpPointName={}", player.getName(), warpPointName);
                     return teleportService.teleport(player, location);
                 }

@@ -59,7 +59,7 @@ class VelocityClusteredServer implements ClusteredServer {
     }
 
     @Override
-    public Boolean ifLocationLocal(ServerLoc serverLoc) {
+    public Boolean isLocationLocal(ServerLoc serverLoc) {
         return serverLoc.nodeName().equals(clusteringConfiguration.getName());
     }
 }

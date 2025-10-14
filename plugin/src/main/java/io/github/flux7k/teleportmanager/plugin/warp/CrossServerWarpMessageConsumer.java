@@ -19,7 +19,7 @@ public class CrossServerWarpMessageConsumer {
 
     public Mono<Void> receive(CrossServerWarpMessage message) {
         CrossServerWarp warp = new CrossServerWarp(message.playerId(), message.warpPoint(), message.timestamp());
-        if (!clusteredServer.ifLocationLocal(message.warpPoint().location())) {
+        if (!clusteredServer.isLocationLocal(message.warpPoint().location())) {
             return Mono.empty();
         }
         logger.debug("Adding pending warp for player {}: {}", message.playerId(), warp.warpPoint().name());

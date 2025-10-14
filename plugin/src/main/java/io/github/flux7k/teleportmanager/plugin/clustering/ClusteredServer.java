@@ -11,6 +11,6 @@ public interface ClusteredServer {
 
     ServerLoc toNodeLocation(Location location);
 
-    Boolean ifLocationLocal(ServerLoc serverLoc);
+    Boolean isLocationLocal(ServerLoc serverLoc);
 
 }

@@ -1,0 +1,19 @@
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{HH:mm:ss}] [%t] [%logger/%level]: %msg%n" />
+        </Console>
+        <Console name = "Logger" target = "SYSTEM_OUT">
+            <PatternLayout pattern = "[%d{HH:mm:ss}] [%t] [%logger/%level]: %msg%n" />
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="io.github.flux7k.teleportmanager" level="DEBUG" additivity="false">
+            <AppenderRef ref="Logger"/>
+        </Logger>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

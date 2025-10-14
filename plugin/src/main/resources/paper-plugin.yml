@@ -1,0 +1,4 @@
+name: teleport-manager
+version: 0.0.1
+main: io.github.flux7k.teleportmanager.plugin.TeleportManagerPlugin
+api-version: 1.21.6

@@ -1,0 +1,98 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: teleport-manager-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_USER: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_RANDOM_ROOT_PASSWORD: "TRUE"
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+  redis:
+    image: redis:7.4
+    container_name: teleport-manager-redis
+    restart: unless-stopped
+  mc1:
+    image: itzg/minecraft-server
+    container_name: teleport-manager-mc1
+    restart: unless-stopped
+    environment:
+      EULA: "TRUE"
+      TYPE: PAPER
+      VERSION: 1.21.6
+      ONLINE_MODE: "FALSE"
+      log4j.configurationFile: "log4j2.xml"
+      SERVER_NAME: "mc1"
+      MYSQL_HOST: "teleport-manager-mysql"
+      MYSQL_NAME: ${MYSQL_DATABASE}
+      MYSQL_USERNAME: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_HOST: "teleport-manager-redis"
+    volumes:
+      - mc1_data:/data
+      - ./build/mc1/plugins:/data/plugins
+      - ./build/libs/teleport-manager.jar:/plugins/teleport-manager.jar:ro
+      - ./log4j2.xml:/data/log4j2.xml:ro
+      - ./paper-global.yml:/config/paper-global.yml
+  mc2:
+    image: itzg/minecraft-server
+    container_name: teleport-manager-mc2
+    restart: unless-stopped
+    environment:
+      EULA: "TRUE"
+      TYPE: PAPER
+      VERSION: 1.21.6
+      ONLINE_MODE: "FALSE"
+      log4j.configurationFile: "log4j2.xml"
+      SERVER_NAME: "mc2"
+      MYSQL_HOST: "teleport-manager-mysql"
+      MYSQL_NAME: ${MYSQL_DATABASE}
+      MYSQL_USERNAME: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_HOST: "teleport-manager-redis"
+    volumes:
+      - mc2_data:/data
+      - ./build/mc2/plugins:/data/plugins
+      - ./build/libs/teleport-manager.jar:/plugins/teleport-manager.jar:ro
+      - ./log4j2.xml:/data/log4j2.xml:ro
+      - ./paper-global.yml:/config/paper-global.yml
+  mc3:
+    image: itzg/minecraft-server
+    container_name: teleport-manager-mc3
+    restart: unless-stopped
+    environment:
+      EULA: "TRUE"
+      TYPE: PAPER
+      VERSION: 1.21.6
+      ONLINE_MODE: "FALSE"
+      log4j.configurationFile: "log4j2.xml"
+      SERVER_NAME: "mc3"
+      MYSQL_HOST: "teleport-manager-mysql"
+      MYSQL_NAME: ${MYSQL_DATABASE}
+      MYSQL_USERNAME: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_HOST: "teleport-manager-redis"
+    volumes:
+      - mc3_data:/data
+      - ./build/mc3/plugins:/data/plugins
+      - ./build/libs/teleport-manager.jar:/plugins/teleport-manager.jar:ro
+      - ./log4j2.xml:/data/log4j2.xml:ro
+      - ./paper-global.yml:/config/paper-global.yml
+  proxy:
+    image: itzg/mc-proxy
+    container_name: teleport-manager-proxy
+    environment:
+      TYPE: VELOCITY
+    ports:
+      - "25565:25577"
+    volumes:
+      - ./velocity.toml:/config/velocity.toml:ro
+      - ./forwarding.secret:/config/forwarding.secret:ro
+      - proxy_data:/server
+volumes:
+  mc1_data:
+  mc2_data:
+  mc3_data:
+  proxy_data:
